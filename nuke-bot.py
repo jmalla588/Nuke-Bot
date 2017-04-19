@@ -5,6 +5,7 @@ from groupy import User
 from operator import itemgetter
 import groupy
 
+#select a group
 def selectGroup():
     i = 1
     groups = []
@@ -19,6 +20,10 @@ def selectGroup():
 
     return groups[oldGroup - 1]
 
+#print("fuk u Joey Nedland")
+#...*shruggy*
+
+#selectgroup until valid entry given
 repeat = True
 while repeat:
     oldGroup = selectGroup()
@@ -30,16 +35,14 @@ while repeat:
     if verify == "Y" or verify == 'y':
         repeat = False
 
-memsToAdd = []
+#make new group and add all members (easier than the old way, does it all at once)
 newGroup = Group.create(oldGroup.name, None, None, False)
-for member in members:
-    if User.get().user_id == member.user_id:
-        continue
+newGroup.add(*members)
 
-    newGroup.add(member)
+#iterate and delete members from old group
+for member in members:
     try:
         oldGroup.remove(member)
     except:
         msg = "Could not remove %s from the group" % member.nickname
         print(msg)
-
